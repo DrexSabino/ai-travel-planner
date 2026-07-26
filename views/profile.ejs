@@ -1,0 +1,26 @@
+<%- include('partials/header', { title: title }) %>
+
+    <main class="page-container">
+        <section class="profile-section">
+            <h1><%= title %></h1>
+
+            <div class="profile-info">
+                <p>
+                    Username: <%= username %>
+                </p>
+                <p>
+                    Email: <%= email %>
+                </p>
+                <br>
+                <p>
+                    Email: <%= user.email %>
+                </p>
+                <br>
+                <p>
+                    Saved Trips: <%= savedTrips.length %>
+                </p>
+            </div>
+        </section>
+    </main>
+
+<%- include('partials/footer') %>

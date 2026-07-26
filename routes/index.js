@@ -14,6 +14,9 @@ router.get('/plan-trip', function(req, res) {
   });
 });
 
+router.post('/plan-trip',)
+
+
 router.get('/saved-trips', function(req, res) {
   res.render('saved-trips', { 
     title: 'Saved Trips' 

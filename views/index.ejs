@@ -1,7 +1,47 @@
-<%- include('partials/header') %>
-  <body>
-    <main>
-      <h1>Plan Smarter Trips With AI</h1>
+<!--here we will be using EJS templating -->
+
+<%- include('partials/header', { title: title }) %> 
+  
+    <main class="page-container">
+        <section class="hero-section">
+            <h1>Plan your next adventure with the help of AI</h1>
+
+            <p>
+                Create personalized travel itineraries, discover hidden gems, and make the most 
+                of your trips with our AI-powered travel planner.
+            </p>
+
+            <a href="/plan-trip" class="primary-button">
+                Start planning
+            </a>
+        </section>
       
+        <section class="how-it-works-section">
+            <h2> How It Works </h2>
+            
+            <div class="steps-container">
+                <article class="step-card">
+                    <h3>1. Enter Your Details</h3>
+                    <p>
+                        Provide information about your destination, trip duration, budget, and preferences.
+                    </p>
+                </article>
+
+                <article class="step-card">
+                    <h3>2. Generates a Plan</h3>
+                    <p>
+                        Our AI analyzes your input and creates a personalized travel itinerary tailored to your goals.
+                    </p>
+                </article>
+
+                <article class="step-card">
+                    <h3>3. Save Your Trip</h3>
+                    <p>
+                        Review your itinerary, and save 
+                    </p>
+                </article>
+            </div>
+        </section>
     </main>
 
+<%- include('partials/footer') %>
