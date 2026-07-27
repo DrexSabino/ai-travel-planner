@@ -7,6 +7,12 @@
                 Access your account to manage your trips or plan more!
             </p>
             
+            <% if (errorMessage) { %>
+            <p class="error-message">
+                <%= errorMessage %>
+            </p>
+            <% } %>
+
             <form action="/login" method="POST" id="login-form">
 
                 <label for="login-email">Email:</label>

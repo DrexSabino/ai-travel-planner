@@ -5,19 +5,20 @@
             <h1><%= title %></h1>
 
             <div class="profile-info">
-                <p>
-                    Username: <%= username %>
-                </p>
-                <p>
-                    Email: <%= email %>
-                </p>
+                <% if (user) { %>
+                    <p>
+                        Username: <%= user.username %>
+                    </p>
+                    <br>
+                    <p>
+                        Email: <%= user.email %>
+                    </p>
+                <% } else { %>
+                    <p>No user is currently signed in.</p>
+                <% } %>
                 <br>
                 <p>
-                    Email: <%= user.email %>
-                </p>
-                <br>
-                <p>
-                    Saved Trips: <%= savedTrips.length %>
+                    Saved Trips: <%= savedTrips ? savedTrips.length : 0 %>
                 </p>
             </div>
         </section>

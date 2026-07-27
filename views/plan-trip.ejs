@@ -1,4 +1,5 @@
-<% include('partials/header', { title: title }) %>
+
+<%- include('partials/header', { title: title }) %> 
 
 <main class="page-container">
     <section class="planner-intro">
@@ -9,7 +10,7 @@
 
     <section class="planner-structure">
         <div class="trip-form-container">
-            <form id="trip-form" method="POST">
+            <form action="/plan-trip" id="trip-form" method="POST">
                 <label for="destination">Destination</label>
                 
                 <input
@@ -17,6 +18,7 @@
                     id="destination"
                     name="destination"
                     placeholder="Example: Tokyo, Japan"
+                    value="<%= formData ? formData.destination : '' %>"
                     required
                 >
 
@@ -27,16 +29,18 @@
                     id="duration"
                     name="duration"
                     min="1"
-                    max="3"
+                    max="5"
+                    value="<%= formData ? formData.duration : '' %>"
                     required
                 >
                 
-                <label for="interests">What are your interests?</label>
+                <label for="interests">What are your interests? & What would you like to do during your trip? Please be as specific as possible.</label>
                 <input
                     type="text"
                     id="interests"
                     name="interests"
                     placeholder="History, Food, Parks... "
+                    value="<%= formData ? formData.interests : '' %>"
                     required
                 >
 
@@ -47,7 +51,60 @@
         </div>
 
         <div id="generated-trip">
-            <p>Your itinerary will appear here.</p>
+            <% if (errorMessage) { %>
+                <p class="error-message">
+                    <%= errorMessage %>
+                </p>
+            <% } %>
+
+            <% if (itinerary) { %>
+                <section class="itinerary-result">
+                    <h2><%= itinerary.tripName %></h2>
+
+                    <p>
+                        <strong>Destination:</strong> 
+                        <%= itinerary.destination %>
+                    </p>
+
+                    <% itinerary.days.forEach(function(day) { %>
+                        <article class="day-card">
+                            <h3>
+                                Day <%= day.day %>: <%= day.theme %>
+                            </h3>
+
+                            <% day.activities.forEach(function(activity) { %>
+                                <div class="activity-card">
+                                    <h4>
+                                        <%= activity.time %> - <%= activity.locationName %>
+                                    </h4>
+
+                                    <p>
+                                        <strong>Address:</strong> 
+                                        <%= activity.address %>
+                                    </p>
+
+                                    <p><%= activity.description %></p>
+
+
+                                    <a 
+                                    href="https://www.google.com/maps/search/?api=1&query=<%= encodeURIComponent(activity.searchQuery) %>"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >
+                                        View on Google Maps
+                                    </a>
+                                </div>
+                           <% }) %>
+                        </article>
+                
+                    <% }) %>
+                    <button type="button" id="save-trip-button" class="save-button">
+                        Save Trip
+                    </button>
+                </section>
+            <% } else {%>
+                <p>Your itinerary will appear here.</p>
+            <% } %>
         </div>
     </section>
 </main>

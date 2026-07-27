@@ -46,10 +46,8 @@ router.post('/signup', function(req, res, next) {
         });
     }
 
-    //normalize the email to lowercase to make comparizon easier
-    const normalizedEmail = email.trim().toLowerCase();
     //we check if a user with the same email already exists
-    const existingUser = users.find(user => user.email === normalizedEmail);
+    const existingUser = users.find(user => user.email === email);
     //if a user with the same email already exists, we return an error message and prompt the user to make an account
     if(existingUser) {
         return res.render('signup', {
@@ -71,7 +69,7 @@ router.post('/signup', function(req, res, next) {
         const newUser = {
             id: crypto.randomUUID(),
             username: username,
-            email: normalizedEmail,
+            email: email,
             salt: salt,
             passwordHash: hashedPassword
         };
@@ -93,10 +91,10 @@ router.get('/login', function(req, res) {
 });
 
 router.post('/login', function(req, res, next) {
-    const email = String(req.body.email || '').trim().toLowerCase();
+    const email = String(req.body.email || '');
     const password = req.body.password;
 
-    //find the user with the submitter email
+    //find the user with the submitted email
     const user = users.find(function(currentUser) {
         return currentUser.email === email;
     });
@@ -125,14 +123,35 @@ router.post('/login', function(req, res, next) {
             });
         }
 
+        //log the user in after the password matches
+        req.session.user = {
+            id: user.id,
+            username: user.username,
+            email: user.email
+        };
+
         console.log(`${user.username} logged in successfully.`);
 
-        res.send(`
-            <h1>Welcome, ${user.username}!</h1>
-            <p>You have successfully logged in.</p>
-            <a href="/">return to Home</a> 
-            `);
+        res.redirect('/profile');
     });
+});
+
+router.get('/profile', function(req, res) {
+    res.render('profile', {
+        title: 'Profile',
+        user: req.session.user || null,
+        savedTrips: []
+    });
+});
+
+router.post('/logout', function(req, res, next) {
+  req.session.destroy(function(error) {
+    if (error) {
+      return next(error);
+    }
+
+    res.redirect('/login');
+  });
 });
 
 module.exports = router;
