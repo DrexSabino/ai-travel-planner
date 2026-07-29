@@ -21,6 +21,7 @@ router.get('/plan-trip', function(req, res) {
 
 router.post('/plan-trip', async function(req, res) {
   const { destination, duration, interests } = req.body;
+  const durationNumber = Number(duration);
 
   if(!destination || !duration || !interests) {
     return res.status(400).render('plan-trip', {
@@ -35,11 +36,24 @@ router.post('/plan-trip', async function(req, res) {
     });
   }
 
+  if (!Number.isInteger(durationNumber) || durationNumber < 1 || durationNumber > 7) {
+    return res.status(400).render('plan-trip', {
+      title: 'Plan a Trip',
+      itinerary: null,
+      errorMessage: 'Trip duration must be between 1 and 7 days.',
+      formData: {
+        destination: destination,
+        duration: duration,
+        interests: interests
+    }
+  });
+}
+
   const baseURL = 'https://generativelanguage.googleapis.com';
   const endpoint = '/v1beta/models/gemini-flash-latest:generateContent';
 
   const prompt = `
-    Create a detailed ${duration}-day travel itinerary for ${destination}.
+    Create a detailed ${durationNumber}-day travel itinerary for ${destination}.
     
     The traveler is interested in: ${interests}.
     
@@ -86,7 +100,7 @@ router.post('/plan-trip', async function(req, res) {
     {
       "tripName": "string",
       "destination": "string",
-      "durationDays": 3,
+      "durationDays": ${durationNumber},
       "days": [
         {
           "day": 1,
