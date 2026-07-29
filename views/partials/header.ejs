@@ -1,11 +1,19 @@
 <!DOCTYPE html>
-<html lang="eng">
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap"
+      rel="stylesheet">
+
+    <link rel="stylesheet" href="/stylesheets/style.css">
   </head>
   
   <body>
@@ -13,27 +21,31 @@
         <nav class="top-navbar">
           <div class="logo-container">
             <a href="/" class="site-logo"> 
-              AI Travel Planner
+              TripBudd
             </a>
           </div>
 
-          <div class="profile-area">
-            <a href="/profile">
-              Profile
-            </a>
-          </div>
+          <div class="account-navigation">
+              <% if (user) { %>
+                <a href="/profile">
+                  <%= user.username %>'s Profile
+                </a>
 
-          <div>
-            <form method="POST" action="/logout">
-              <button type="submit">Log Out</button>
-            </form>
+                <form method="POST" action="/logout">
+                  <button type="submit">Log Out</button>
+                </form>
+              <% } else { %>
+                <a href="/login">Log In</a>
+                <a href="/signup">Sign Up</a>
+              <% } %>
           </div>
-            
         </nav>
 
         <nav class="lower-navbar">
             <a href="/">Home</a>
             <a href="/plan-trip">Plan a Trip</a>
-            <a href="/saved-trips">Saved Trips</a>
+              <% if (user) { %>
+                <a href="/saved-trips">Saved Trips</a>
+              <% } %>
         </nav>
     </header>

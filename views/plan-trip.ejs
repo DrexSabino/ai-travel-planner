@@ -29,7 +29,7 @@
                     id="duration"
                     name="duration"
                     min="1"
-                    max="5"
+                    max="30"
                     value="<%= formData ? formData.duration : '' %>"
                     required
                 >
@@ -44,7 +44,8 @@
                     required
                 >
 
-                <button type="submit" class="submit-button">
+
+                <button type="submit" class="primary-button">
                     Generate Itinerary
                 </button>
             </form>
@@ -69,38 +70,67 @@
                     <% itinerary.days.forEach(function(day) { %>
                         <article class="day-card">
                             <h3>
-                                Day <%= day.day %>: <%= day.theme %>
+                            Day <%= day.day %>: <%= day.theme %>
                             </h3>
 
-                            <% day.activities.forEach(function(activity) { %>
-                                <div class="activity-card">
-                                    <h4>
-                                        <%= activity.time %> - <%= activity.locationName %>
-                                    </h4>
+                            <section class="food-section">
+                            <h4>Food Recommendations</h4>
 
-                                    <p>
-                                        <strong>Address:</strong> 
-                                        <%= activity.address %>
-                                    </p>
+                            <% day.foodPlaces.forEach(function(foodPlace) { %>
+                                <div class="food-card">
+                                <h5>
+                                    <%= foodPlace.mealType %>: <%= foodPlace.locationName %>
+                                </h5>
 
-                                    <p><%= activity.description %></p>
+                                <p>
+                                    <strong>Address:</strong>
+                                    <%= foodPlace.address %>
+                                </p>
 
+                                <p><%= foodPlace.description %></p>
 
-                                    <a 
-                                    href="https://www.google.com/maps/search/?api=1&query=<%= encodeURIComponent(activity.searchQuery) %>"
+                                <a
+                                    href="https://www.google.com/maps/search/?api=1&query=<%= encodeURIComponent(foodPlace.searchQuery) %>"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    >
-                                        View on Google Maps
-                                    </a>
+                                >
+                                    View on Google Maps
+                                </a>
                                 </div>
-                           <% }) %>
+                            <% }) %>
+                            </section>
+
+                            <section class="places-section">
+                            <h4>Places to Visit</h4>
+
+                            <% day.placesToVisit.forEach(function(place) { %>
+                                <div class="activity-card">
+                                <h5><%= place.locationName %></h5>
+
+                                <p>
+                                    <strong>Address:</strong>
+                                    <%= place.address %>
+                                </p>
+
+                                <p><%= place.description %></p>
+
+                                <a
+                                    href="https://www.google.com/maps/search/?api=1&query=<%= encodeURIComponent(place.searchQuery) %>"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    View on Google Maps
+                                </a>
+                                </div>
+                            <% }) %>
+                            </section>
                         </article>
-                
-                    <% }) %>
-                    <button type="button" id="save-trip-button" class="save-button">
-                        Save Trip
-                    </button>
+                        <% }) %>
+                    <form action="/save-trip" method="POST">
+                        <button type="submit" id="save-trip-button" class="save-button">
+                            Save Trip
+                        </button>
+                    </form>
                 </section>
             <% } else {%>
                 <p>Your itinerary will appear here.</p>

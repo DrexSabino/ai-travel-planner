@@ -22,13 +22,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 //had to lean on AI for this since I wasn't sure how to do the sessions part of the project, 
 //here we set up the session middleware to manage user sessions. The secret is used to sign the session ID cookie, and the cookie's maxAge is set to 1 hour (1000 milliseconds * 60 seconds * 60 minutes).
 app.use(session({
-  secret: 'temporary-development-secret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
     maxAge: 1000 * 60 * 60
   }
 }));
+
+app.use(function(req, res, next) {
+  res.locals.user = req.session.user || null;
+  next();
+});
 
 app.use('/', authRouter);
 app.use('/', indexRouter);

@@ -1,10 +1,7 @@
 const express = require('express');
 const crypto = require('crypto');
+const { findUserByEmail, createUser } = require('../db/users');
 const router = express.Router();
-
-//we will use a temporary array to store users for now
-//all users disappear when the server restarts
-let users = [];
 
 /* 
     Converts a password into a passowrd hash.
@@ -33,7 +30,7 @@ router.get('/signup', function(req, res) {
     });
 });
 
-router.post('/signup', function(req, res, next) {
+router.post('/signup', async function(req, res, next) {
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
@@ -47,7 +44,7 @@ router.post('/signup', function(req, res, next) {
     }
 
     //we check if a user with the same email already exists
-    const existingUser = users.find(user => user.email === email);
+    const existingUser = await findUserByEmail(email);
     //if a user with the same email already exists, we return an error message and prompt the user to make an account
     if(existingUser) {
         return res.render('signup', {
@@ -60,27 +57,26 @@ router.post('/signup', function(req, res, next) {
     const salt = crypto.randomBytes(64).toString('hex');
 
     //we hash the password with the salt and store it in the users
-    hashPassword(password, salt, function(error, hashedPassword) {
-        if(error) {
+    hashPassword(password, salt, async function(error, hashedPassword) {
+        if (error) {
             return next(error);
         }
 
-        //we create a new user object and store it in the users array
-        const newUser = {
-            id: crypto.randomUUID(),
+        try {
+            const newUser = {
             username: username,
-            email: email,
+            email: email.toLowerCase(),
             salt: salt,
             passwordHash: hashedPassword
-        };
+            };
 
-        users.push(newUser);
+            await createUser(newUser);
 
-        console.log('New user created:', newUser);
-        //we redirect the user to the login page after successful signup
-        res.redirect('/login');
+            res.redirect('/login');
+        } catch (error) {
+            next(error);
+        }
     });
-
 });
 
 router.get('/login', function(req, res) {
@@ -90,14 +86,11 @@ router.get('/login', function(req, res) {
     });
 });
 
-router.post('/login', function(req, res, next) {
+router.post('/login', async function(req, res, next) {
     const email = String(req.body.email || '');
     const password = req.body.password;
+    const user = await findUserByEmail(email);
 
-    //find the user with the submitted email
-    const user = users.find(function(currentUser) {
-        return currentUser.email === email;
-    });
 
     //if the user does not exist, we return an error message
     if(!user) {
@@ -125,14 +118,15 @@ router.post('/login', function(req, res, next) {
 
         //log the user in after the password matches
         req.session.user = {
-            id: user.id,
+            id: user._id.toString(),
             username: user.username,
             email: user.email
         };
 
         console.log(`${user.username} logged in successfully.`);
 
-        res.redirect('/profile');
+        const returnTo = req.session.returnTo || '/profile';
+        res.redirect(returnTo);;
     });
 });
 

@@ -1,25 +1,477 @@
+/* General page styling */
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin: 0px;
+  background-color: #FFF8EE;
+  color: #263A34;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
 }
 
+/* Main page headings */
+h1, h2, h3, h4, h5 {
+  color: #1F513F;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Regular page links */
 a {
-  color: #00B7FF;
+  color: #28614F;
 }
 
-.auth-page {
-  width: min(500px, 90%);
-  margin: 3rem auto;
+/* Gives the main content space away from the edges */
+.page-container {
+  padding: 50px 8%;
 }
 
-.auth-card {
-  padding: 2rem;
-  background-color: #ffffff;
+
+/* Top navigation bar */
+.top-navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 5%;
+  background-color: #1F513F;
+}
+
+
+/* TripBudd logo */
+.site-logo {
+  color: white;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 32px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.site-logo:hover {
+  color: #F4A261;
+}
+
+
+/* Login, signup, profile, and logout area */
+.account-navigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 25px;
+}
+
+.account-navigation a {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.account-navigation a:hover {
+  color: #F4A261;
+}
+
+
+/* Removes extra spacing around the logout form */
+.account-navigation form {
+  margin: 0px;
+}
+
+
+/* Logout button */
+.account-navigation button {
+  padding: 8px 15px;
+  background-color: inherit;
+  color: white;
+  border: 2px solid white;
+  border-radius: 20px;
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.account-navigation button:hover {
+  background-color: #F4A261;
+  color: #1F513F;
+  border-color: #F4A261;
+}
+
+
+/* Lower navigation bar */
+.lower-navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 60px;
+  padding: 12px;
+  background-color: #F4A261;
+}
+
+.lower-navbar a {
+  color: #1F513F;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.lower-navbar a:hover {
+  opacity: 0.6;
+}
+
+/* Introduction at the top of the planner */
+.planner-intro {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.planner-intro h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.planner-intro p {
+  font-size: 18px;
+}
+
+.hero-section .primary-button {
+  display: block;
+  width: fit-content;
+  margin: 30px auto 0px;
+
+}
+.primary-button {
+  margin-top: 15px;
+  padding: 12px 20px;
+  background-color: #F4A261;
+  color: #1F513F;
+  border: none;
+  border-radius: 25px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+
+}
+
+.primary-button:hover {
+  opacity: 0.7;
+}
+
+.primary-button a {
+  text-decoration: none;
+}
+
+/* Holds the form and generated result beside each other */
+.planner-structure {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+
+/* Planner form container */
+.trip-form-container {
+  width: 35%;
+  padding: 30px;
+  background-color: white;
+  border: 2px solid #BCD4C7;
+  border-radius: 15px;
+}
+
+
+/* Planner form */
+#trip-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#trip-form label {
+  color: #1F513F;
+  font-weight: bold;
+}
+
+#trip-form input {
+  padding: 12px;
+  border: 2px solid #BCD4C7;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+}
+
+#trip-form input:focus {
+  border-color: #F4A261;
+  outline: none;
+}
+
+.hero-section>a {
+  text-decoration: none;
+justify-content: center;
+}
+
+/* Generate Itinerary button */
+.submit-button {
+  margin-top: 15px;
+  padding: 12px 20px;
+  background-color: #F4A261;
+  color: #1F513F;
+  border: none;
+  border-radius: 25px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+
+}
+
+.submit-button:hover {
+  opacity: 0.7;
+}
+
+.submit-button a {
+  text-decoration: none;
+}
+
+/* Area where Gemini's result appears */
+#generated-trip {
+  width: 65%;
+  padding: 30px;
+  background-color: #E6F0EA;
+  border-radius: 15px;
+}
+
+.itinerary-result > h2,
+.itinerary-result > h1 {
+  text-align: center;
+}
+
+
+/* Each individual day */
+.day-card {
+  margin-top: 30px;
+  padding: 25px;
+  background-color: white;
+  border: 2px solid #BCD4C7;
+  border-radius: 15px;
+}
+
+.day-card > h2,
+.day-card > h3 {
+  padding-bottom: 10px;
+}
+
+
+/* Food and attraction sections */
+.food-section,
+.places-section {
+  margin-top: 25px;
+}
+
+.food-section > h3,
+.food-section > h4,
+.places-section > h3,
+.places-section > h4 {
+  margin-bottom: 15px;
+}
+
+
+/* Individual food recommendation */
+.food-card {
+  margin-bottom: 15px;
+  padding: 15px;
+  background-color: #FFF8EE;
+  border-left: 5px solid #F4A261;
+  border-radius: 8px;
+}
+
+.food-card h4,
+.food-card h5 {
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
+
+.food-card p {
+  margin: 8px 0px;
+}
+
+
+/* Individual place to visit */
+.activity-card {
+  margin-bottom: 15px;
+  padding: 15px;
+  background-color: #F1F7F3;
+  border-left: 5px solid #28614F;
+  border-radius: 8px;
+}
+
+.activity-card h4,
+.activity-card h5 {
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
+
+.activity-card p {
+  margin: 8px 0px;
+}
+
+
+/* Google Maps links */
+.food-card a,
+.activity-card a {
+  color: #C75C2B;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.food-card a:hover,
+.activity-card a:hover {
+  opacity: 0.6;
+}
+
+
+/* Save Trip button */
+.save-button {
+  display: block;
+  margin: 30px auto 0px;
+  padding: 12px 30px;
+  background-color: #1F513F;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.save-button:hover {
+  opacity: 0.7;
+}
+
+/* Errors shown by the planner */
+.error-message {
+  padding: 15px;
+  background-color: #FFE5E5;
+  color: #A22020;
+  border-radius: 8px;
+}
+
+/* Remove default list appearance */
+.saved-trips-section ul {
+  width: 75%;
+  margin: 30px auto;
+  padding: 0px;
+  list-style: none;
+}
+
+
+/* Saved itinerary container */
+.saved-trips-section li {
+  margin-bottom: 20px;
+  padding: 20px;
+
+  background-color: #FFF8EE;
+  border-left: 5px solid #F4A261;
   border-radius: 10px;
 }
 
-.error-message {
-  padding: 0.75rem;
-  border: 1px solid #b42318;
-  border-radius: 6px;
+
+/* Destination title */
+.saved-trips-section li h2 {
+  margin-top: 0px;
+  margin-bottom: 10px;
+
+  color: #1F513F;
+  font-size: 22px;
+}
+
+
+/* Saved itinerary hyperlink */
+.saved-trips-section li a {
+  color: #C75C2B;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.saved-trips-section li a:hover {
+  opacity: 0.6;
+}
+
+.delete-button {
+  margin-top: 15px;
+  padding: 8px 15px;
+  background-color: #A22020;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.site-footer {
+  background-color: #1F513F;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+
+
+/* Mobile styling */
+* {
+  box-sizing: border-box;
+}
+
+/* Mobile styling */
+@media (max-width: 768px) {
+
+  .top-navbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .account-navigation {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .lower-navbar {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .page-container {
+    padding: 30px 5%;
+  }
+
+  .hero-section {
+    padding: 20px;
+  }
+
+  .hero-section h1 {
+    font-size: 32px;
+  }
+
+  .steps-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .step-card {
+    width: 100%;
+  }
+
+  .planner-structure {
+    flex-direction: column;
+  }
+
+  .trip-form-container {
+    width: 100%;
+  }
+
+  #generated-trip {
+    width: 100%;
+  }
+
+  .saved-trips-section ul {
+    width: 100%;
+  }
+
+  .trip-actions {
+    flex-direction: column;
+  }
 }

@@ -7,13 +7,19 @@
                 View and manage your saved trips.
             </p>
             
-            <div id="saved-trips" class="saved-trips-grid">
+            <div id="saved-trips" class="saved-trips-list">
                 <p>Your saved trips will be displayed below:</p>
             </div>
             <ul> <!-- Saved trips will be listed here -->
                 <% if (savedTrips && savedTrips.length > 0) { %>
                     <% savedTrips.forEach(function(trip) { %>
-                        <li><%= trip.name %> - <%= trip.destination %></li>
+                    <li>
+                        <h2><%= trip.destination %></h2>
+
+                        <a href="/saved-trips/<%= trip._id %>">
+                            <%= trip.tripName %>
+                        </a>
+                    </li>
                     <% }); %>
                 <% } else { %>
                     <li>No saved trips found.</li>

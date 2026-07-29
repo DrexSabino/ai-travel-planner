@@ -1,0 +1,90 @@
+<%- include('partials/header', { title: title }) %>
+
+<main class="page-container">
+  <section class="itinerary-result">
+    <h1><%= itinerary.tripName %></h1>
+
+    <p>
+      <strong>Destination:</strong>
+      <%= itinerary.destination %>
+    </p>
+
+    <p>
+      <strong>Duration:</strong>
+      <%= itinerary.durationDays %> days
+    </p>
+
+    <% itinerary.days.forEach(function(day) { %>
+        <article class="day-card">
+            <h2>
+            Day <%= day.day %>: <%= day.theme %>
+            </h2>
+
+            <section class="food-section">
+            <h3>Food Recommendations</h3>
+
+            <% day.foodPlaces.forEach(function(foodPlace) { %>
+                <div class="food-card">
+                <h4>
+                    <%= foodPlace.mealType %>: <%= foodPlace.locationName %>
+                </h4>
+
+                <p>
+                    <strong>Address:</strong>
+                    <%= foodPlace.address %>
+                </p>
+
+                <p><%= foodPlace.description %></p>
+
+                <a
+                    href="https://www.google.com/maps/search/?api=1&query=<%= encodeURIComponent(foodPlace.searchQuery) %>"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    View on Google Maps
+                </a>
+                </div>
+            <% }) %>
+            </section>
+
+            <section class="places-section">
+            <h3>Places to Visit</h3>
+
+            <% day.placesToVisit.forEach(function(place) { %>
+                <div class="activity-card">
+                <h4><%= place.locationName %></h4>
+
+                <p>
+                    <strong>Address:</strong>
+                    <%= place.address %>
+                </p>
+
+                <p><%= place.description %></p>
+
+                <a
+                    href="https://www.google.com/maps/search/?api=1&query=<%= encodeURIComponent(place.searchQuery) %>"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    View on Google Maps
+                </a>
+                </div>
+            <% }) %>
+            </section>
+        </article>
+        <% }) %>
+
+    <form
+        action="/saved-trips/<%= itinerary._id %>/delete" method="POST">
+        <button type="submit" class="delete-button">
+            Delete Trip
+        </button>
+    </form>
+
+    <p>
+      <a href="/saved-trips">Back to Saved Trips</a>
+    </p>
+  </section>
+</main>
+
+<%- include('partials/footer') %>
